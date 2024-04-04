@@ -37,7 +37,7 @@ public class BinaryTree<T> {
 		Node<String> h = new Node<>("h", null, null);
 
 		a.left = b;
-		a.right = f;
+		a.right = e;
 		b.left = c;
 		b.right = d;
 		e.left = f;
@@ -46,9 +46,40 @@ public class BinaryTree<T> {
 
 		BinaryTree<String> binaryTree = new BinaryTree<>();
 		binaryTree.nodes.addAll(List.of(a, b, c, d, e, f, g, h));
+		binaryTree.head = a;
+		System.out.println(binaryTree.preOrderedSearch(binaryTree.head));
 	}
 
-	public List<T> traverse() {
-		return null;
+	public List<T> preOrderedSearch(Node<T> head) {
+		List<T> path = new ArrayList<>();
+		preOrderedWalk(head, path);
+		return path;
 	}
+
+	public List<T> preOrderedWalk(Node<T> curr, List<T> path) {
+		if (curr == null) {
+			return path;
+		}
+		path.add(curr.value);
+		preOrderedWalk(curr.left, path);
+		preOrderedWalk(curr.right, path);
+		return path;
+	}
+
+	public List<T> breadthFirstSearch(Node<T> head) {
+		List<T> path = new ArrayList<>();
+		breadthFirstWalk(head, path);
+		return path;
+	}
+
+	public List<T> breadthFirstWalk(Node<T> curr, List<T> path) {
+		Queue<T> queue = new Queue<>();
+		queue.enqueue(curr.value);
+		while (queue.length != 0) {
+
+		}
+
+		return path;
+	}
+
 }

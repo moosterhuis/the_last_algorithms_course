@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 class Node<T> {
 	public T value;
@@ -47,7 +49,9 @@ public class BinaryTree<T> {
 		BinaryTree<String> binaryTree = new BinaryTree<>();
 		binaryTree.nodes.addAll(List.of(a, b, c, d, e, f, g, h));
 		binaryTree.head = a;
-		System.out.println(binaryTree.preOrderedSearch(binaryTree.head));
+		// System.out.println(binaryTree.preOrderedSearch(binaryTree.head));
+		// System.out.println(binaryTree.breadthFirstWalk(binaryTree.head));
+		System.out.println(binaryTree.breadthFirstSearch(binaryTree.head, "h"));
 	}
 
 	public List<T> preOrderedSearch(Node<T> head) {
@@ -66,20 +70,39 @@ public class BinaryTree<T> {
 		return path;
 	}
 
-	public List<T> breadthFirstSearch(Node<T> head) {
+	public List<T> breadthFirstWalk(Node<T> head) {
 		List<T> path = new ArrayList<>();
-		breadthFirstWalk(head, path);
+		Queue<Node<T>> queue = new ConcurrentLinkedQueue<>();
+		queue.add(head);
+		while (queue.size() != 0) {
+			Node<T> node = queue.poll();
+			if (node.left != null) {
+				queue.add(node.left);
+			}
+			if (node.right != null) {
+				queue.add(node.right);
+			}
+			path.add(node.value);
+		}
 		return path;
 	}
 
-	public List<T> breadthFirstWalk(Node<T> curr, List<T> path) {
-		Queue<T> queue = new Queue<>();
-		queue.enqueue(curr.value);
-		while (queue.length != 0) {
-
+	public boolean breadthFirstSearch(Node<T> head, T value) {
+		Queue<Node<T>> queue = new ConcurrentLinkedQueue<>();
+		queue.add(head);
+		while (queue.size() != 0) {
+			Node<T> node = queue.poll();
+			if (node.value == value) {
+				return true;
+			}
+			if (node.left != null) {
+				queue.add(node.left);
+			}
+			if (node.right != null) {
+				queue.add(node.right);
+			}
 		}
-
-		return path;
+		return false;
 	}
 
 }
